@@ -1,0 +1,81 @@
+﻿@model IEnumerable<listadoNet.Models.negocios>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <div class="row">
+
+        <div class="col-md-12">
+            <div class="col-md-10">
+                <input type="text" placeholder="Lugares cerca de mi ..." id="searchText" class="form-control" id="search" name="search" style="width: 100%; max-width: 100%">
+            </div>
+            <div class="col-lg-1 col-md-3 col-sm-12 p-0">
+                <button type="submit" class="btn btn-base">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<h4>Lugares cercanos a ti</h4>
+
+<div class="row">
+    <div class="col-md-4">
+    </div>
+    <div class="col-md-4">
+        <div class="list-group" id="listaDatos">
+
+            <table class="table table-bordered table-striped">
+                <tbody id="myTable">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <button type="button" class="list-group-item list-group-item-action"
+                                        onclick="location.href='@Url.Action("Detalle", "Home", new { id = item.id_negocio })';">
+                                    <span style="color: #808080; font-weight: bold; display: block"> @Html.DisplayFor(modelItem => item.nombre) </span>
+                                    <span style="display: block">@Html.DisplayFor(modelItem => item.descripcion) - @Html.DisplayFor(modelItem => item.distancia) </span>
+                                </button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <table id="dmyTabled">
+                <tr>
+                    <td></td>
+                </tr>
+            </table>
+
+        </div>
+
+
+    </div>
+    <div class="col-md-4">
+
+    </div>
+</div>
+
+
+
+
+<script src="/Scripts/jquery-3.4.1.js"></script>
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#searchText").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#myTable tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+
+    });
+
+</script>
